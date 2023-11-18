@@ -79,12 +79,12 @@ jobs:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          prefix-key: ${{ matrix.os }}
-          workspaces: |
-            frontend/rust-lib
-          cache-all-crates: true
+      # - uses: Swatinem/rust-cache@v2
+      #   with:
+      #     prefix-key: ${{ matrix.os }}
+      #     workspaces: |
+      #       frontend/rust-lib
+      #     cache-all-crates: true
 
       - uses: taiki-e/install-action@v2
         with:
