@@ -109,16 +109,11 @@ jobs:
       - name: Build AppFlowy
         working-directory: frontend
         run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            USE_STATIC_LIB=1 cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
-          else
-            cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
-          fi
-
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            ls rust-lib/target/x86_64-apple-darwin/debug/build/librocksdb-sys-d25c1174f5321a50/
-            ls rust-lib/target/x86_64-apple-darwin/debug/build/librocksdb-sys-d25c1174f5321a50/out/
-          fi
+          # if [ "$RUNNER_OS" == "Linux" ]; then
+          #   USE_STATIC_LIB=1 cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
+          # else
+          cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
+          # fi
         shell: bash
 
 
@@ -135,10 +130,22 @@ jobs:
       - name: Compress appflowy_flutter
         run: tar -czf appflowy_flutter.tar.gz frontend/appflowy_flutter
 
+      - name: Compress appflowy_flutter
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            tar -czf rust-build.tar.gz frontend/rust-lib/target/x86_64-unknown-linux-gnu/debug/build
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            tar -czf rust-build.tar.gz frontend/rust-lib/target/x86_64-pc-windows-msvc/debug/build
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            tar -czf rust-build.tar.gz frontend/rust-lib/target/x86_64-apple-darwin/debug/build
+          fi
+
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
-          path: appflowy_flutter.tar.gz
+          path: |
+            appflowy_flutter.tar.gz
+            rust-build.tar.gz
 
   unit_test:
     needs: [prepare]

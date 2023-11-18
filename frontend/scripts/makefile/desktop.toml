@@ -42,7 +42,6 @@ script = [
     rustup show
     echo $build_cmd
     bash -c "$build_cmd"
-    ls target/${RUST_COMPILE_TARGET}/debug/build/librocksdb-sys-*/
     cd ../
   """,
 ]
@@ -56,7 +55,6 @@ script = [
     rustup show
     echo  RUSTFLAGS="-C target-cpu=native -C link-arg=-mmacosx-version-min=11.0" cargo build --package=dart-ffi --target ${RUST_COMPILE_TARGET} --features "${FLUTTER_DESKTOP_FEATURES}"
     RUSTFLAGS="--cfg tokio_unstable" cargo build --package=dart-ffi --target ${RUST_COMPILE_TARGET} --features "${FLUTTER_DESKTOP_FEATURES}"
-    ls target/${RUST_COMPILE_TARGET}/debug/build/librocksdb-sys-*/
     cd ../
   """,
 ]
@@ -68,7 +66,6 @@ script = [
   """
     cd rust-lib
     exec cargo build --package=dart-ffi --target ${RUST_COMPILE_TARGET} --features "${FLUTTER_DESKTOP_FEATURES}"
-    ls target/${RUST_COMPILE_TARGET}/debug/build/librocksdb-sys-*/
     cd ..
   """,
 ]
