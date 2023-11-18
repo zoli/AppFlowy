@@ -116,9 +116,9 @@ jobs:
           fi
 
           if [ "$RUNNER_OS" == "macOS" ]; then
-            ls rust-lib/
-            ls rust-lib/target/
+            ls rust-lib/target/x86_64-apple-darwin/debug/build/
           fi
+        shell: bash
 
 
       - name: Run code generation
