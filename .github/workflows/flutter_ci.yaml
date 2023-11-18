@@ -109,11 +109,11 @@ jobs:
       - name: Build AppFlowy
         working-directory: frontend
         run: |
-          # if [ "$RUNNER_OS" == "Linux" ]; then
-          #   USE_STATIC_LIB=1 cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
-          # else
-          cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
-          # fi
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            USE_STATIC_LIB=1 cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
+          else
+            cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
+          fi
         shell: bash
 
 
@@ -139,6 +139,7 @@ jobs:
           elif [ "$RUNNER_OS" == "macOS" ]; then
             tar -czf rust-build.tar.gz frontend/rust-lib/target/x86_64-apple-darwin/debug/build
           fi
+        shell: bash
 
       - uses: actions/upload-artifact@v3
         with:
