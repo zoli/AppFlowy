@@ -79,12 +79,12 @@ jobs:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      # - uses: Swatinem/rust-cache@v2
-      #   with:
-      #     prefix-key: ${{ matrix.os }}
-      #     workspaces: |
-      #       frontend/rust-lib
-      #     cache-all-crates: true
+      - uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: ${{ matrix.os }}
+          workspaces: |
+            frontend/rust-lib
+          cache-all-crates: true
 
       - uses: taiki-e/install-action@v2
         with:
@@ -127,15 +127,11 @@ jobs:
         run: |
           flutter analyze .
 
-      - name: Compress appflowy_flutter
-        run: tar -czf appflowy_flutter.tar.gz frontend/appflowy_flutter
-
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
           path: |
-            appflowy_flutter.tar.gz
-            frontend/rust-lib/target/cargo-timings/
+            frontend/appflowy_flutter
 
   unit_test:
     needs: [prepare]
@@ -282,9 +278,6 @@ jobs:
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
 
-      - name: Uncompress appflowy_flutter
-        run: tar -xf appflowy_flutter.tar.gz
-
       - name: Run code generation
         working-directory: frontend
         run: |
@@ -388,9 +381,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
-
-      - name: Uncompress appflowy_flutter
-        run: tar -xf appflowy_flutter.tar.gz
 
       - name: Run code generation
         if: matrix.os == 'windows-latest'
