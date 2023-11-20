@@ -127,11 +127,14 @@ jobs:
         run: |
           flutter analyze .
 
+      - name: Compress appflowy_flutter
+        run: tar -czf appflowy_flutter.tar.gz frontend/appflowy_flutter
+
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
           path: |
-            frontend/appflowy_flutter
+            appflowy_flutter.tar.gz
 
   unit_test:
     needs: [prepare]
@@ -278,6 +281,9 @@ jobs:
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
 
+      - name: Uncompress appflowy_flutter
+        run: tar -xf appflowy_flutter.tar.gz
+
       - name: Run code generation
         working-directory: frontend
         run: |
@@ -381,6 +387,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ${{ github.run_id }}-${{ matrix.os }}
+
+      - name: Uncompress appflowy_flutter
+        run: tar -xf appflowy_flutter.tar.gz
 
       - name: Run code generation
         if: matrix.os == 'windows-latest'
