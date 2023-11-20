@@ -51,7 +51,7 @@ script_runner = "@shell"
 private = true
 script = [
   """
-    build_cmd="RUSTFLAGS=\"--cfg\\ tokio_unstable\" cargo build --package=dart-ffi --target ${RUST_COMPILE_TARGET} --features \"${FLUTTER_DESKTOP_FEATURES}\""
+    build_cmd="RUSTFLAGS=\"\"--cfg\\ tokio_unstable\"\" cargo build --package=dart-ffi --target ${RUST_COMPILE_TARGET} --features \"${FLUTTER_DESKTOP_FEATURES}\""
 
     if [ -n "$USE_STATIC_LIB" ]; then
       static_lib_path="$PWD/resources/lib"
