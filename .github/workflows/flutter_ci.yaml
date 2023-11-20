@@ -109,7 +109,7 @@ jobs:
       - name: Build AppFlowy
         working-directory: frontend
         run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
+          if [ "$RUNNER_OS" != "Linux" ]; then
             USE_STATIC_LIB=1 cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
           else
             cargo make --profile ${{ matrix.flutter_profile }} appflowy-core-dev
